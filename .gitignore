@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+# compiled CUDA extensions: always built locally, never committed
+*.so
+
+# Local data and results (never commit; see DATA.md)
+/data/
+/outputs/
+*.log
+*.pickle
+*.npy
+*.npz
+*.ply
+
+# Environments / editors
+.venv/
+.vscode/
+.idea/
+.claude/
+.cursor/
+.DS_Store
+
+# Model weights and tools fetched at setup time (README)
+third_party/mvsformer/pretrained/
+TIGRE-2.3/
+*.zip

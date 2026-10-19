@@ -1,0 +1,70 @@
+{
+  "model_path": "third_party/mvsformer/pretrained/MVSFormer-Blended/best.pth",
+  "max_w": 1536,
+  "max_h": 1152,
+  "tmp": [
+    5.0,
+    5.0,
+    5.0,
+    1.0
+  ],
+  "prob_threshold": [
+    0.5,
+    0.5,
+    0.5,
+    0.5
+  ],
+  "thres_disp": 1.0,
+  "thres_view": 3,
+  "arch": {
+    "args": {
+      "fix": false,
+      "depth_type": "ce",
+      "mask_out_range": false,
+      "focal": false,
+      "gamma": 2.0,
+      "fusion_type": "cnn",
+      "inverse_depth": true,
+      "attn_temp": 2.0,
+      "base_ch": 8,
+      "ndepths": [
+        32,
+        16,
+        8,
+        4
+      ],
+      "feat_chs": [
+        8,
+        16,
+        32,
+        64
+      ],
+      "depth_interals_ratio": [
+        4.0,
+        2.67,
+        1.5,
+        1.0
+      ],
+      "multi_scale": false,
+      "vit_args": {
+        "twin": true,
+        "rescale": 0.5,
+        "cross_attention": false,
+        "do_vit": true,
+        "patch_size": 16,
+        "qk_scale": "default",
+        "vit_arch": "alt_gvt_small",
+        "vit_path": "./pretrained_weights/alt_gvt_small.pth",
+        "vit_ch": [
+          64,
+          128,
+          256,
+          512
+        ],
+        "out_ch": 64,
+        "att_fusion": true,
+        "nhead": 6
+      }
+    }
+  }
+}

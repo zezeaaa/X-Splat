@@ -1,0 +1,90 @@
+# X-Splat base configuration: the values of the paper's runs.
+# '???' keys come from the dataset config (configs/dataset/<dataset>.yaml).
+
+defaults:
+  - _self_
+  - dataset: ???
+  - override hydra/job_logging: disabled   # no train.log from Hydra in the working directory
+
+training:
+  xray_pretrain_iterations: 3000    # Stage 1: X-ray only
+  joint_iterations: 12000           # Stage 2: RGB and X-ray jointly
+  xray_loss_weight: 1.0
+  rgb_loss_weight: 1.0
+gs_optimization:                    # learning rates decay exponentially from init to final over max_steps
+  position_lr_init: 0.0002
+  position_lr_final: 2.0e-05
+  position_lr_max_steps: 30000
+  density_lr_init: 0.01
+  density_lr_final: 0.001
+  density_lr_max_steps: 30000
+  scaling_lr_init: 0.005
+  scaling_lr_final: 0.0005
+  scaling_lr_max_steps: 30000
+  rotation_lr_init: 0.001
+  rotation_lr_final: 0.0001
+  rotation_lr_max_steps: 30000
+  densification_interval: 100       # every N iterations: densify (between the two below), drop non-finite Gaussians
+  densify_from_iter: 500
+  densify_until_iter: 8000
+init:
+  max_init_points: 10000            # points kept from the FDK initialisation
+  mvs_color_max_dist: 0.05          # initial colour from the nearest MVS point within this distance
+surface_set:                        # distances are to the CT surface, in scene units
+  max_dist: ???                     # width of the opacity band around the surface
+  opacity: 0.5                      # initial opacity on the surface
+  band_end_opacity: ???             # initial opacity at the band's edge
+  interior_opacity: 1.0e-05         # initial opacity beyond the band
+  band_sigma_ratio: ???             # falloff (sigma) across the band, as a fraction of its width
+  rgb_mask_max_dist: ???            # Gaussians this close form the surface set, the ones rendered in RGB
+  demotion_opacity_threshold: 0.005 # surface Gaussians below this opacity return to the interior
+losses:
+  depth_smooth_weight: 1.0          # CT-guided depth loss
+  rgb_outside_alpha_weight: 1.0     # penalty on opacity outside the RGB mask and the CT silhouette
+  ct_mask_dilate_radius: ???        # dilation of the CT silhouette for that penalty, in pixels
+ct_surface:
+  update_interval: 500              # re-extract the CT surface every N Stage-2 iterations
+  iso_level: ???                    # density at which the CT surface is extracted
+virtual_depth:                      # virtual cameras for the depth loss
+  n_views: 180
+  resolution_scale: 0.5             # relative to the X-ray detector
+  radius_factor: 1.0                # orbit radius, relative to the source distance (DSO)
+  max_elevation_deg: 75.0           # elevation limit of the cameras, degrees
+realign:                            # ICP of the MVS cloud onto the CT surface
+  voxel_size: 0.01                  # downsampling voxel
+  max_corr_factor: 10               # correspondence distance, in voxel sizes
+  max_iters: 2000
+  surface_samples: 50000            # points sampled on the CT surface
+xray_model:
+  scale_min: 0.0005                 # recorded in the model's scale_bound, otherwise unused
+  scale_max: 0.5                    # Stage 1 prunes Gaussians larger than 0.1 x this (relative to the volume size)
+xray_optimization:
+  lambda_dssim: 0.25
+  lambda_tv: 0.05                   # total variation on a random sub-volume
+  tv_vol_size: 32                   # side of that sub-volume, in voxels
+  density_min_threshold: 1.0e-05    # prune below this density
+  densify_grad_threshold: 5.0e-05
+  densify_scale_threshold: 0.005    # split above, clone below this scale (relative to the volume size)
+rgb_model:
+  sh_degree: 3
+  resolution: 800                   # training image width, in pixels
+  llffhold: 4                       # every N-th view is a test view
+rgb_optimization:
+  feature_lr: 0.0025
+  opacity_lr: 0.05
+  opacity_min_threshold: 0.005      # prune below this opacity
+  lambda_dssim: 0.2
+  densify_grad_threshold: 1.0e-06
+common:
+  test_iterations: [3000, 5000, 10000] # test metrics are printed at these iterations and at the end
+  seed: 0
+data:
+  scene_root: ???
+output:
+  scene_dir: null                   # defaults to outputs/<dataset>/<scene>
+
+# Everything is written under output.scene_dir, not Hydra's own output tree.
+hydra:
+  run:
+    dir: "."
+  output_subdir: null

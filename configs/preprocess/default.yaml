@@ -1,0 +1,23 @@
+# Preparation settings shared by every dataset; configs/preprocess/<dataset>.yaml overrides them.
+
+rgb:
+  colmap: colmap              # COLMAP executable
+  sift_max_num_features: 20000
+  sift_peak_threshold: 0.005
+
+xray:
+  n_train: 50                 # simulated training projections
+  n_test: 120                 # held-out test projections
+  auto_geometry: true         # nVoxel/sVoxel from the volume's shape, not the scanner file
+  density_thresh: 0.25        # FDK voxels below this are not sampled for the initial points
+
+mvs:
+  config: third_party/mvsformer/configs/config_mvsformer.json
+  llffhold: 4                 # must equal rgb_model.llffhold
+  src_num: 6                  # source views per reference
+  pc_downsample: 0.1          # fraction of the fused points kept
+  bds_scale_near: 1.0         # scale on each view's depth range
+  bds_scale_far: 1.2
+  align_sample_points: 50000  # points sampled for the alignment
+  mask_min_hits: 1            # keep points inside the masks of at least this many views
+  depth_bounds: sparse        # each view's depth range from the sparse points ('sparse') or fixed at 1 to 10 ('default')

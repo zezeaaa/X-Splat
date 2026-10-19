@@ -1,0 +1,39 @@
+scenes:                     # the two RIKEN scenes the paper uses, as <flower>/<scan>
+  - Yxlon_Eustoma/20121031_Yxlon_Eustoma
+  - mRay_Tulip/20140110_mRay_Tulip
+
+paths:
+  source_root: data/source/flower   # RIKEN downloads (DATA.md)
+  raw_root: data/raw/flower
+  processed_root: data/processed/flower
+
+raw:                          # Blender renders on a spiral around the flower
+  num_views: 80
+  n_rotations: 5.0
+  elev_max: 85.0              # degrees, towards up_axis
+  elev_min: -30.0
+  up_axis: "+z"
+  width: 800
+  height: 800
+  samples: 512                # Cycles samples per pixel
+
+xray:
+  scanner: configs/scanner/flower.yaml
+
+mvs:
+  depth_bounds: default
+  src_num: 5
+  pc_downsample: 0.2
+  bds_scale_far: 1.5
+
+scene_overrides:              # CT foreground threshold per flower; density_thresh follows it
+  Yxlon_Eustoma/20121031_Yxlon_Eustoma:
+    raw:
+      foreground_thresh: 0.1
+    xray:
+      density_thresh: 0.1
+  mRay_Tulip/20140110_mRay_Tulip:
+    raw:
+      foreground_thresh: 0.23
+    xray:
+      density_thresh: 0.23

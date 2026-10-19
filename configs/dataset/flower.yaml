@@ -1,0 +1,15 @@
+# @package _global_
+# Flower (Tulip / Eustoma; Ijiri et al. 2014 CT + Blender renders)
+
+surface_set:
+  max_dist: 0.03
+  band_end_opacity: 0.01
+  band_sigma_ratio: 0.2
+  rgb_mask_max_dist: 0.03
+losses:
+  ct_mask_dilate_radius: 0
+ct_surface:
+  iso_level: 0.1
+
+dataset_meta:
+  name: flower

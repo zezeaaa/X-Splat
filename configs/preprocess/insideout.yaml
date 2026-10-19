@@ -1,0 +1,53 @@
+scenes: [matryoshka, pharaoh, skull, toy_gun]
+
+paths:
+  rgb_root: data/source/insideout/RGB   # originals from the InsideOut authors (DATA.md)
+  ct_root: data/source/insideout/CT
+  mask_root: data/annotations/insideout/masks   # our annotation archive
+  raw_root: data/raw/insideout
+  processed_root: data/processed/insideout
+
+raw:
+  target_size: 256            # CT resampled to this many voxels per side
+  foreground_thresh: 0.25     # CT foreground threshold
+  crop_pad_ratio: 0.05        # padding around the RGB foreground crop
+  crop_axis: 2                # CT axis the two crops below act on
+  crop_bottom_ratio: 0.0      # fraction of slices zeroed at the start of that axis
+  crop_top_ratio: 0.0         # ... and at its end
+
+rgb:
+  sift_max_num_features: 16384
+  sift_peak_threshold: null   # COLMAP's default
+
+xray:
+  scanner: configs/scanner/insideout.yaml
+  auto_geometry: false
+
+mvs:
+  src_num: 4
+  bds_scale_far: 1.0
+  align_sample_points: 16000
+
+scene_overrides:              # per-scene CT foreground threshold; density_thresh follows it
+  matryoshka:
+    raw:
+      foreground_thresh: 0.35
+    xray:
+      density_thresh: 0.35
+  pharaoh:
+    raw:
+      foreground_thresh: 0.30
+    xray:
+      density_thresh: 0.30
+  skull:
+    raw:
+      foreground_thresh: 0.20
+      crop_bottom_ratio: 0.12  # the stand below the skull
+      crop_top_ratio: 0.06     # scanner noise above it
+    xray:
+      density_thresh: 0.20
+  toy_gun:
+    raw:
+      foreground_thresh: 0.60
+    xray:
+      density_thresh: 0.60

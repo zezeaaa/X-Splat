@@ -1,0 +1,15 @@
+# Cone-beam scanner (TIGRE) for simulating projections from your CT volume; edit to your scanner.
+# With xray.auto_geometry (the default), nVoxel and sVoxel come from the volume's shape instead.
+mode: cone                # the only mode supported
+filter: null              # FDK filter for the initial points; null is TIGRE's ram-lak
+DSD: 7.0                  # source to detector distance
+DSO: 5.0                  # source to origin distance
+nDetector: [512, 512]     # detector pixels [v, u]
+sDetector: [3.5, 3.5]     # detector size
+nVoxel: [256, 256, 256]   # volume voxels [x, y, z]
+sVoxel: [2.0, 2.0, 2.0]   # volume size
+offOrigin: [0, 0, 0]      # volume offset [x, y, z]
+offDetector: [0, 0]       # detector offset [u, v]
+accuracy: 0.5             # forward-projection sampling step, in voxels
+totalAngle: 360.0         # arc the projections are spread over, degrees
+startAngle: 0.0           # angle of the first projection, degrees

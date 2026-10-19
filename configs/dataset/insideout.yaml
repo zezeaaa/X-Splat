@@ -1,0 +1,15 @@
+# @package _global_
+# InsideOut (matryoshka / pharaoh / skull / toy_gun; Lee et al. 2025)
+
+surface_set:
+  max_dist: 0.03
+  band_end_opacity: 0.01
+  band_sigma_ratio: 0.15
+  rgb_mask_max_dist: 0.03
+losses:
+  ct_mask_dilate_radius: 3
+ct_surface:
+  iso_level: 0.3
+
+dataset_meta:
+  name: insideout

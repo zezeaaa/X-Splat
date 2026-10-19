@@ -1,0 +1,10 @@
+# How the published insect scene packages were built. Their raw scenes are not distributed:
+# the packages hold the same CT volumes, photographs and masks.
+scenes: [E02, E15, E32]
+
+paths:
+  raw_root: data/raw/insect
+  processed_root: data/processed/insect
+
+xray:
+  scanner: configs/scanner/insect.yaml

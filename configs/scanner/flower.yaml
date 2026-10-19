@@ -1,0 +1,15 @@
+# Flower's cone-beam scanner (TIGRE); configs/scanner/custom.yaml explains the keys.
+# nVoxel and sVoxel come from each volume's shape (xray.auto_geometry).
+mode: cone
+filter: null
+DSD: 7.0
+DSO: 5.0
+nDetector: [512, 512]
+sDetector: [3.0, 3.0]
+nVoxel: [256, 256, 256]
+sVoxel: [2.0, 2.0, 2.0]
+offOrigin: [0, 0, 0]
+offDetector: [0, 0]
+accuracy: 0.5
+totalAngle: 360.0
+startAngle: 0.0

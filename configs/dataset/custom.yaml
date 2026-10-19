@@ -1,0 +1,18 @@
+# @package _global_
+# Template for your own data (copy to configs/dataset/<name>.yaml for another dataset):
+# the values that differ between datasets, with InsideOut / Flower / insect in brackets.
+
+surface_set:
+  max_dist: 0.01                   # width of the opacity band around the CT surface (0.03 / 0.03 / 0.01)
+  band_end_opacity: 0.001          # initial opacity at the band's edge (0.01 / 0.01 / 0.001)
+  band_sigma_ratio: 0.1            # falloff across the band (0.15 / 0.2 / 0.1)
+  rgb_mask_max_dist: 0.02          # surface set: Gaussians within this distance (0.03 / 0.03 / 0.02)
+
+losses:
+  ct_mask_dilate_radius: 0         # CT silhouette dilation for the outside-opacity penalty, pixels (3 / 0 / 0)
+
+ct_surface:
+  iso_level: 0.1                   # density at which the CT surface is extracted (0.3 / 0.1 / 0.1)
+
+dataset_meta:
+  name: custom                     # outputs go to outputs/<name>/<scene>

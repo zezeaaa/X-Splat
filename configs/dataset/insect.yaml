@@ -1,0 +1,15 @@
+# @package _global_
+# Insect (E02 / E15 / E32; our own capture)
+
+surface_set:
+  max_dist: 0.01
+  band_end_opacity: 0.001
+  band_sigma_ratio: 0.1
+  rgb_mask_max_dist: 0.02
+losses:
+  ct_mask_dilate_radius: 0
+ct_surface:
+  iso_level: 0.1
+
+dataset_meta:
+  name: insect

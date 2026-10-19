@@ -1,0 +1,11 @@
+# Template for your own data (copy to configs/preprocess/<name>.yaml for another dataset).
+# Unset values come from configs/preprocess/default.yaml.
+scenes: []            # scene directories under raw_root; empty, so pass --scenes
+
+paths:
+  raw_root: data/raw/custom
+  processed_root: data/processed/custom
+
+xray:
+  scanner: configs/scanner/custom.yaml
+  density_thresh: 0.25  # FDK voxels below this are not sampled for the initial points
