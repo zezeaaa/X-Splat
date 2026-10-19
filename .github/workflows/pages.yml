@@ -1,0 +1,46 @@
+# Publishes https://zezeaaa.github.io/X-Splat/ from zezeaaa/projects/X-Splat/.
+#
+# Lives alone on X-Splat's `pages-deploy` branch (an orphan with this one file), so
+# `main` carries only code and can be replaced by the release export without
+# breaking the page. tools/deploy.sh force-pushes a fresh commit of this file to
+# that branch, and the push is what runs the deployment.
+#
+# X-Splat's Settings -> Pages -> Source is "GitHub Actions": whatever this uploads is
+# served as X-Splat's site, so the URL stays the one in the paper while the files
+# stay in the projects repository next to the other project pages. projects is
+# private; PROJECTS_DEPLOY_KEY is the private half of a read-only deploy key on it.
+# The github-pages environment must allow deployments from `pages-deploy`
+# (Settings -> Environments), since by default only the default branch may deploy.
+name: Deploy project page
+
+on:
+  push:
+    branches: [pages-deploy]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: zezeaaa/projects
+          ssh-key: ${{ secrets.PROJECTS_DEPLOY_KEY }}
+          sparse-checkout: X-Splat
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: X-Splat
+      - id: deployment
+        uses: actions/deploy-pages@v4
